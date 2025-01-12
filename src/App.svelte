@@ -1,10 +1,12 @@
 <script>
   import Modal from "./Modal.svelte";
+  import AddFriendForm from "./AddFriend.svelte";
+
   let showModal = false;
 
-  const toggleModal = () => {
+  function toggleModal() {
     showModal = !showModal;
-  };
+  }
 
   let people = [
     {
@@ -12,20 +14,29 @@
       beltColor: "black",
       age: 25,
       id: 1,
+      skills: ["Coding"],
     },
     {
       name: "Caleb",
       beltColor: "green",
       age: 24,
       id: 2,
+      skills: ["Reading"],
     },
     {
       name: "Deborah",
       beltColor: "blue",
       age: 22,
       id: 3,
+      skills: ["Praying"],
     },
   ];
+
+  function addPerson(e) {
+    people = [e.detail, ...people];
+    console.log(people);
+    showModal = false;
+  }
 
   let peopleMap = new Map(people.map((person) => [person.id, person]));
 
@@ -35,14 +46,8 @@
   }
 </script>
 
-<Modal
-  message="Sign Up"
-  isPromo={false}
-  {showModal}
-  on:click={toggleModal}
->
-
-
+<Modal message="Sign Up" isPromo={false} {showModal} on:click={toggleModal}>
+  <AddFriendForm on:addPerson={addPerson} />
 </Modal>
 <main>
   <button on:click={toggleModal}>Open Modal</button>
@@ -51,13 +56,21 @@
       <div>
         <h4>{person.name}</h4>
         {#if person.beltColor === "black"}
-          <p>Master Nainja</p>
+          <p>Master Ninja</p>
         {:else if person.beltColor === "green"}
           <p>Green belt</p>
         {:else}
           <p>Blue belt</p>
         {/if}
         <p>{person.age} years old, has a {person.beltColor} belt</p>
+        {#if person.skills}
+          <p>Skills include</p>
+          <ul>
+            {#each person.skills as skill}
+              <li>{skill}</li>
+            {/each}
+          </ul>
+        {/if}
         <button on:click={() => handleClick(person.id)}>Delete</button>
       </div>
     {:else}

@@ -1,7 +1,6 @@
-<!-- svelte-ignore a11y-click-events-have-key-events -->
+
 <script>
   // Props
-  export let message;
   export let showModal;
   export let isPromo;
 
@@ -14,9 +13,9 @@
 <!-- The modal component -->
 {#if showModal}
   <div>
-    <div class="backdrop" class:promo={isPromo} on:click|self>
+    <div class="backdrop" class:promo={isPromo} on:click|self on:keydown on:keyup on:keypress>
       <div class="modal">
-        <p on:click={handleClick}>{message}</p>
+        <slot></slot>
       </div>
     </div>
   </div>
@@ -26,7 +25,7 @@
   .backdrop {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     background: rgba(0, 0, 0, 0.8);
