@@ -40,9 +40,6 @@
     background-color: #fff;
   }
 
-  p {
-    cursor: pointer;
-  }
 
   .promo .modal {
     background-color: crimson;
